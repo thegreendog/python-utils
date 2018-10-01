@@ -112,16 +112,18 @@ class RequestGELFFormatter(BasicRequestGELFFormatter):
         :param :class:`logging.LogRecord` record: record emitted by logger. Its attribures can be seen
         in https://docs.python.org/3/library/logging.html#logrecord-attributes
         """
-        setattr(record, 'scheme', getattr(record.request, 'scheme', None))
-        self.extra_fields['scheme'] = True
+        request = getattr(record, 'request', None)
+        if request:
+            setattr(record, 'scheme', getattr(record.request, 'scheme', None))
+            self.extra_fields['scheme'] = True
 
-        setattr(record, 'method', getattr(record.request, 'method', None))
-        self.extra_fields['method'] = True
+            setattr(record, 'method', getattr(record.request, 'method', None))
+            self.extra_fields['method'] = True
 
-        user = getattr(record.request, 'user', None)
-        if user:
-            setattr(record, 'user_id', getattr(user, 'id', None))
-            self.extra_fields['user_id'] = True
+            user = getattr(record.request, 'user', None)
+            if user:
+                setattr(record, 'user_id', getattr(user, 'id', None))
+                self.extra_fields['user_id'] = True
 
-            setattr(record, 'username', getattr(user, 'username', None))
-            self.extra_fields['username'] = True
+                setattr(record, 'username', getattr(user, 'username', None))
+                self.extra_fields['username'] = True
