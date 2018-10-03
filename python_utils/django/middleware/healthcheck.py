@@ -3,7 +3,7 @@ import logging
 
 from django.http import HttpResponse, HttpResponseServerError
 
-logger = logging.getLogger("health")
+logger = logging.getLogger("healthcheck")
 
 
 class HealthCheckMiddleware:
@@ -13,17 +13,17 @@ class HealthCheckMiddleware:
 
     def __call__(self, request):
         if request.method == "GET":
-            if request.path == "/health":
-                return self.health(request)
-            elif request.path == "/readiness":
-                return self.readiness(request)
+            if request.path == "/healthz":
+                return self.healthz(request)
+            elif request.path == "/readyz":
+                return self.readyz(request)
         return self.get_response(request)
 
-    def health(self, request):
+    def healthz(self, request):
         """Returns that the server is alive."""
         return HttpResponse("OK")
 
-    def readiness(self, request):
+    def readyz(self, request):
         """Returns that the databases and caches are ready"""
         # Connect to each database and do a generic standard SQL query that doesn't
         # write any data and doesn't depend on any tables being present.
