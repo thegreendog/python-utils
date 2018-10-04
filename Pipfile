@@ -9,6 +9,7 @@ name = "pypi"
 "autopep8" = "*"
 pylint = "*"
 django = "==1.11.*"
+djangorestframework = "==3.8.*"
 
 [requires]
 python_version = "3.6"
