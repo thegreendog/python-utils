@@ -61,11 +61,12 @@ class BasicGELFFormatter(logging.Formatter):
         out['_logger_name'] = getattr(record, 'name')
         out['_levelname'] = getattr(record, 'levelname')
 
-        if self.extra_fields.pop('exc_text', None) and getattr(record, 'exc_text'):
+        extra_fields = dict(self.extra_fields)
+        if extra_fields.pop('exc_text', None) and getattr(record, 'exc_text'):
             out['full_message'] = getattr(record, 'exc_text')
-        if self.extra_fields.pop('file', None):
+        if extra_fields.pop('file', None):
             out['_line'] = getattr(record, 'lineno')
-        if self.extra_fields.pop('line', None):
+        if extra_fields.pop('line', None):
             out['_file'] = getattr(record, 'pathname')
 
         for field in self.extra_fields:
