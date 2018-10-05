@@ -69,7 +69,7 @@ class BasicGELFFormatter(logging.Formatter):
         if extra_fields.pop('line', None):
             out['_file'] = getattr(record, 'pathname')
 
-        for field in self.extra_fields:
+        for field in extra_fields:
             value = getattr(record, field, None)
             if value:
                 out['_' + field] = value
