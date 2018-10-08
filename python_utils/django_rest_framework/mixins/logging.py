@@ -1,4 +1,5 @@
-"""Mixin classes"""
+"""Logging related mixin classes"""
+import json
 import logging
 
 from rest_framework import status
@@ -28,9 +29,9 @@ class LoggingMixin():
             'request_data': request.data,
         }
         if status.is_server_error(status_code):
-            LOGGER.error('DRF server error: {}'.format(log_kwargs))
+            LOGGER.error('DRF server error: {}'.format(json.dumps(log_kwargs)))
         elif status.is_client_error(status_code):
-            LOGGER.warning('DRF client error: {}'.format(log_kwargs))
+            LOGGER.warning('DRF client error: {}'.format(json.dumps(log_kwargs)))
         else:
-            LOGGER.info("DRF successfully finished: {}".format(log_kwargs))
+            LOGGER.info("DRF successfully finished: {}".format(json.dumps(log_kwargs)))
         return response
