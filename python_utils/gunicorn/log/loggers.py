@@ -22,7 +22,7 @@ class GunicornLogger(glogging.Logger):
         try:
             self.access_log.info(self.cfg.access_log_format, safe_atoms,
                                  extra={'remote_addr': safe_atoms.get('h'),
-                                        'response_status_code': safe_atoms.get('s'),
+                                        'status_code': safe_atoms.get('s'),
                                         'http_user_agent': safe_atoms.get('a'),
                                         'request_method': safe_atoms.get('m'),
                                         'path_info': safe_atoms.get('U'),

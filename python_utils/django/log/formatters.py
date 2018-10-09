@@ -18,15 +18,15 @@ class DjangoRequestGELFFormatter(BasicRequestGELFFormatter):
         request = getattr(record, 'request', None)
         if request:
             setattr(record, 'scheme', getattr(record.request, 'scheme', None))
-            self.extra_fields['scheme'] = True
+            self.extra_fields.append('scheme')
 
             setattr(record, 'method', getattr(record.request, 'method', None))
-            self.extra_fields['method'] = True
+            self.extra_fields.append('method')
 
             user = getattr(record.request, 'user', None)
             if user:
                 setattr(record, 'user_id', getattr(user, 'id', None))
-                self.extra_fields['user_id'] = True
+                self.extra_fields.append('user_id')
 
                 setattr(record, 'username', getattr(user, 'username', None))
-                self.extra_fields['username'] = True
+                self.extra_fields.append('username')
