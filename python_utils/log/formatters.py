@@ -18,7 +18,7 @@ SYSLOG_LEVELS = {
     logging.DEBUG: syslog.LOG_DEBUG
 }
 
-EXTRA_FIELDS = {'exc_text': True, 'line': True, 'file': True}
+EXTRA_FIELDS = {'exc_info': True, 'line': True, 'file': True}
 
 
 class BasicGELFFormatter(logging.Formatter):
@@ -62,8 +62,8 @@ class BasicGELFFormatter(logging.Formatter):
         out['_levelname'] = getattr(record, 'levelname')
 
         extra_fields = dict(self.extra_fields)
-        if extra_fields.pop('exc_text', None) and getattr(record, 'exc_text'):
-            out['full_message'] = getattr(record, 'exc_text')
+        if extra_fields.pop('exc_info', None) and getattr(record, 'exc_info'):
+            out['full_message'] = self.formatException(getattr(record, 'exc_info'))
         if extra_fields.pop('file', None):
             out['_line'] = getattr(record, 'lineno')
         if extra_fields.pop('line', None):
@@ -104,7 +104,7 @@ class BasicRequestGELFFormatter(BasicGELFFormatter):
         super().__init__(extra_fields=extra_fields)
 
 
-class RequestGELFFormatter(BasicRequestGELFFormatter):
+class DjangoRequestGELFFormatter(BasicRequestGELFFormatter):
     """A GELF formatter to format a :class:`logging.LogRecord` into GELF, with specific request fields"""
 
     def set_more_extra_fields(self, record):
@@ -128,3 +128,21 @@ class RequestGELFFormatter(BasicRequestGELFFormatter):
 
                 setattr(record, 'username', getattr(user, 'username', None))
                 self.extra_fields['username'] = True
+
+
+class GunicornRequestGELFFormatter(BasicGELFFormatter):
+    """A GELF formatter to format a :class:`logging.LogRecord` into GELF, adding gunicorn access log specific fields"""
+
+    def __init__(self):
+        extra_fields = {
+            **EXTRA_FIELDS,
+            **{
+                'remote_addr': True,
+                'response_status_code': True,
+                'http_user_agent': True,
+                'request_method': True,
+                'path_info': True,
+                'server_protocol': True
+            }
+        }
+        super().__init__(extra_fields=extra_fields)
