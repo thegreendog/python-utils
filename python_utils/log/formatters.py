@@ -18,7 +18,7 @@ SYSLOG_LEVELS = {
     logging.DEBUG: syslog.LOG_DEBUG
 }
 
-EXTRA_FIELDS = {'exc_text': True, 'line': True, 'file': True}
+EXTRA_FIELDS = ['line', 'file']
 
 
 class BasicGELFFormatter(logging.Formatter):
@@ -50,6 +50,7 @@ class BasicGELFFormatter(logging.Formatter):
         :param :class:`logging.LogRecord` record: record emitted by logger. Its attribures can be seen
         in https://docs.python.org/3/library/logging.html#logrecord-attributes
         """
+        # Always wanted fields
         out = {
             'version': GELF_VERSION,
             'host': getattr(record, 'host', socket.gethostname()),
@@ -57,18 +58,18 @@ class BasicGELFFormatter(logging.Formatter):
             'timestamp': getattr(record, 'created', time.time()),
             'level': self.to_syslog_level(record)
         }
-
         out['_logger_name'] = getattr(record, 'name')
         out['_levelname'] = getattr(record, 'levelname')
+        if getattr(record, 'exc_info', None):
+            out['full_message'] = self.formatException(getattr(record, 'exc_info'))
 
-        extra_fields = dict(self.extra_fields)
-        if extra_fields.pop('exc_text', None) and getattr(record, 'exc_text'):
-            out['full_message'] = getattr(record, 'exc_text')
-        if extra_fields.pop('file', None):
+        # Extra fields
+        if 'line' in self.extra_fields and getattr(record, 'lineno', None):
             out['_line'] = getattr(record, 'lineno')
-        if extra_fields.pop('line', None):
+        if 'file' in self.extra_fields and getattr(record, 'pathname', None):
             out['_file'] = getattr(record, 'pathname')
 
+        extra_fields = list(set(self.extra_fields) - set(['line', 'file']))
         for field in extra_fields:
             value = getattr(record, field, None)
             if value:
@@ -95,36 +96,5 @@ class BasicRequestGELFFormatter(BasicGELFFormatter):
     """A GELF formatter to format a :class:`logging.LogRecord` into GELF, adding the request status code"""
 
     def __init__(self):
-        extra_fields = {
-            **EXTRA_FIELDS,
-            **{
-                'status_code': True
-            }
-        }
+        extra_fields = EXTRA_FIELDS + ['status_code']
         super().__init__(extra_fields=extra_fields)
-
-
-class RequestGELFFormatter(BasicRequestGELFFormatter):
-    """A GELF formatter to format a :class:`logging.LogRecord` into GELF, with specific request fields"""
-
-    def set_more_extra_fields(self, record):
-        """Transform from :class:`logging.LogRecord` some fields to python dict.
-
-        :param :class:`logging.LogRecord` record: record emitted by logger. Its attribures can be seen
-        in https://docs.python.org/3/library/logging.html#logrecord-attributes
-        """
-        request = getattr(record, 'request', None)
-        if request:
-            setattr(record, 'scheme', getattr(record.request, 'scheme', None))
-            self.extra_fields['scheme'] = True
-
-            setattr(record, 'method', getattr(record.request, 'method', None))
-            self.extra_fields['method'] = True
-
-            user = getattr(record.request, 'user', None)
-            if user:
-                setattr(record, 'user_id', getattr(user, 'id', None))
-                self.extra_fields['user_id'] = True
-
-                setattr(record, 'username', getattr(user, 'username', None))
-                self.extra_fields['username'] = True
