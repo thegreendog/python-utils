@@ -11,5 +11,5 @@ class GunicornRequestGELFFormatter(BasicGELFFormatter):
 
     def __init__(self):
         extra_fields = EXTRA_FIELDS + ['remote_addr', 'http_user_agent', 'request_method',
-                                       'path_info', 'server_protocol']
+                                       'path_info', 'server_protocol', 'status_code']
         super().__init__(extra_fields=extra_fields)
