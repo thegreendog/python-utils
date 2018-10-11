@@ -11,6 +11,7 @@ pylint = "*"
 django = ">=1.11.16,<2.0"
 djangorestframework = "==3.8.*"
 gunicorn = "==19.9.*"
+drf-yasg = "==1.10.*"
 
 [requires]
 python_version = "3.6"
