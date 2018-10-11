@@ -2,6 +2,7 @@
 import json
 import logging
 
+from python_utils.django.serializer.json import DjangoWithFileJSONEncoder
 from rest_framework import status
 
 LOGGER = logging.getLogger(__name__)
@@ -29,9 +30,9 @@ class LoggingMixin():
             'request_data': request.data,
         }
         if status.is_server_error(status_code):
-            LOGGER.error('DRF server error: {}'.format(json.dumps(log_kwargs)))
+            LOGGER.error('DRF server error: {}'.format(json.dumps(log_kwargs, cls=DjangoWithFileJSONEncoder)))
         elif status.is_client_error(status_code):
-            LOGGER.warning('DRF client error: {}'.format(json.dumps(log_kwargs)))
+            LOGGER.warning('DRF client error: {}'.format(json.dumps(log_kwargs, cls=DjangoWithFileJSONEncoder)))
         else:
-            LOGGER.info("DRF successfully finished: {}".format(json.dumps(log_kwargs)))
+            LOGGER.info("DRF successfully finished: {}".format(json.dumps(log_kwargs, cls=DjangoWithFileJSONEncoder)))
         return response
