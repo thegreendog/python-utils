@@ -22,7 +22,7 @@ Exposes /healthz and /readyz endpoints for liveness and readiness probes
 Abstract model with created_at and modified_at fields
 
 ### BaseModel
-Default abstract model intented to be a defult one
+Default abstract model intented to be a default one
 
 # Django Rest Framework
 ## Mixins
@@ -35,6 +35,12 @@ Mixin to change delete action to pass a force parameter to deleting instance, fo
 ## Viewsets
 ### ActivatableModelViewSet
 Changes DRF's ModelViewSet to use DestroyActivatableModelMixin instead of DestroyModelMixin
+
+## Serializers
+### BaseModelSerializer
+Default base serializer with all fields and read only fields _id_, _created_at_ and _modified_at_
+### BaseActivatableModelSerializer
+Adds to the default serializer an _is_active_ field
 
 # Gunicorn
 ## Logs
