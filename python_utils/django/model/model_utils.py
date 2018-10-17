@@ -1,4 +1,6 @@
 """Model utils"""
+import uuid
+
 from django.db import models
 
 
@@ -13,7 +15,8 @@ class DateBaseModel(models.Model):
 
 
 class BaseModel(DateBaseModel):
-    """Mixin base model of all of our actual and future base models"""
+    """Mixin base model of all of our actual and future base models usin id as an uuid field"""
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
     class Meta:
         abstract = True

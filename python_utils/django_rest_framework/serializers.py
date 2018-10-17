@@ -17,5 +17,5 @@ class BaseModelSerializer(serializers.ModelSerializer):
 class BaseActivatableModelSerializer(BaseModelSerializer):
     """Base model serializer"""
     class Meta(BaseModelSerializer.Meta):
-        fields = '__all__'
+        fields = BaseModelSerializer.Meta.fields
         read_only_fields = BaseModelSerializer.Meta.read_only_fields + ('is_active',)
