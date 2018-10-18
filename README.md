@@ -42,6 +42,11 @@ Default base serializer with all fields and read only fields _id_, _created_at_ 
 ### BaseActivatableModelSerializer
 Adds to the default serializer an _is_active_ field
 
+# Eve
+## Utils
+### Datetime utils
+Utils for serializing datetimes in ISO_8601 format. Overwrites `eve.io.mongo.mongo.Mongo` to change datetime serializer and json encoder class. This class can be passed to Eve constructor as `data` argument: `app = Eve(data=MyMongo)`
+
 # Gunicorn
 ## Logs
 ### GunicornRequestGELFFormatter
