@@ -34,7 +34,7 @@ Mixin to change delete action to pass a force parameter to deleting instance, fo
 
 ## Viewsets
 ### ActivatableModelViewSet
-Changes DRF's ModelViewSet to use DestroyActivatableModelMixin instead of DestroyModelMixin
+Changes DRF's ModelViewSet to use DestroyActivatableModelMixin instead of DestroyModelMixin and ListActivatableModelMixin instead of ListModelMixin
 
 ## Serializers
 ### BaseModelSerializer

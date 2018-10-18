@@ -3,15 +3,15 @@
 from rest_framework import mixins
 from rest_framework.viewsets import GenericViewSet
 
-from python_utils.django_rest_framework.mixins.model import \
-    DestroyActivatableModelMixin
+from python_utils.django_rest_framework.mixins.model import (DestroyActivatableModelMixin,
+                                                             ListActivatableModelMixin)
 
 
 class ActivatableModelViewSet(mixins.CreateModelMixin,
                               mixins.RetrieveModelMixin,
                               mixins.UpdateModelMixin,
                               DestroyActivatableModelMixin,
-                              mixins.ListModelMixin,
+                              ListActivatableModelMixin,
                               GenericViewSet):
     """
     A viewset that provides default `create()`, `retrieve()`, `update()`,

@@ -3,14 +3,15 @@ import json
 import logging
 
 from drf_yasg.utils import swagger_auto_schema
-from python_utils.django_rest_framework.serializers import \
-    DeleteQuerySerializer
 from rest_framework import status
-from rest_framework.mixins import DestroyModelMixin
+from rest_framework.mixins import ListModelMixin
 from rest_framework.response import Response
 
+from python_utils.django_rest_framework.serializers import (AllElementsQuerySerializer,
+                                                            DeleteQuerySerializer)
 
-class DestroyActivatableModelMixin(object):
+
+class DestroyActivatableModelMixin:
     """
     Destroy a model instance.
     """
@@ -24,3 +25,13 @@ class DestroyActivatableModelMixin(object):
 
     def perform_destroy(self, instance, force=False):
         instance.delete(force=force)
+
+
+class ListActivatableModelMixin(ListModelMixin):
+    @swagger_auto_schema(query_serializer=AllElementsQuerySerializer)
+    def list(self, request, *args, **kwargs):
+        query_params = AllElementsQuerySerializer(request.query_params)
+        all_elements = query_params.data.get('all_elements', False)
+        if not all_elements:
+            self.queryset = self.queryset.filter(is_active=True)
+        return super().list(request, *args, **kwargs)
