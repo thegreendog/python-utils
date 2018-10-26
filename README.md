@@ -1,5 +1,8 @@
 # Python
 ## Generic
+### Datetime utils
+Utils for serializing/deserializing dates in ISO_8601 format
+
 ### Enum
 Enum that accepts a second description argument
 
