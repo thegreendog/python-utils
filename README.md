@@ -27,6 +27,14 @@ Abstract model with created_at and modified_at fields
 ### BaseModel
 Default abstract model intented to be a default one
 
+# Django Filters
+## Backends (for Rest Framework)
+### BaseFilterBackend
+Base custom filter backend just with new filter mappings added
+
+### UUIDInFilterBackend
+Custom filter backend with new filter mappings added and a default `id__in` field
+
 # Django Rest Framework
 ## Mixins
 ### LoggingMixin

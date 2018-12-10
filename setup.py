@@ -1,3 +1,4 @@
+"""Package setup"""
 import setuptools
 
 from python_utils import VERSION
