@@ -1,7 +1,8 @@
 # Python
 ## Generic
 ### Datetime utils
-Utils for serializing/deserializing dates in ISO_8601 format
+* Functions to seriale/deserialize dates in ISO_8601 format
+* Functions to print relative time passed since a datetime
 
 ### Enum
 Enum that accepts a second description argument
