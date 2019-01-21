@@ -8,13 +8,14 @@ name = "pypi"
 [dev-packages]
 "autopep8" = "*"
 pylint = "*"
-django = ">=1.11.16,<2.0"
+django = ">=1.11.18,<2.0"
 djangorestframework = "==3.8.*"
 gunicorn = "==19.9.*"
 drf-yasg = "==1.10.*"
 eve = "==0.8.*"
 pytz = "==2018.5"
 django-filter = "==2.0.*"
+pytest = "==4.0.*"
 
 [requires]
 python_version = "3.6"

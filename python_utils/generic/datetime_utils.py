@@ -5,12 +5,11 @@ Links that helped:
 https://github.com/encode/django-rest-framework/blob/3.8.2/rest_framework/fields.py#L1217
 https://github.com/django/django/blob/1.11.16/django/utils/dateparse.py#L23
 """
+import calendar
 import datetime
 import re
-import calendar
 
 import pytz
-import six
 
 utc = pytz.utc
 ZERO = datetime.timedelta(0)
@@ -85,7 +84,7 @@ def parse_datetime(value):
             if tzinfo[0] == '-':
                 offset = -offset
             tzinfo = get_fixed_timezone(offset)
-        kw = {k: int(v) for k, v in six.iteritems(kw) if v is not None}
+        kw = {k: int(v) for k, v in kw.items() if v is not None}
         kw['tzinfo'] = tzinfo
         return datetime.datetime(**kw)
 
