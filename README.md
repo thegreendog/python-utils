@@ -44,6 +44,9 @@ Mixin to log some REST methods and their contents
 ### DestroyActivatableModelMixin
 Mixin to change delete action to pass a force parameter to deleting instance, for using in combination with [django-activatable-model](https://github.com/ambitioninc/django-activatable-model)
 
+### ActionViewMixin
+Mixin to get a base POST class based view which performs an action (use it in conjunction with Rest Framework's generics.GenericAPIView)
+
 ## Viewsets
 ### ActivatableModelViewSet
 Changes DRF's ModelViewSet to use DestroyActivatableModelMixin instead of DestroyModelMixin and ListActivatableModelMixin instead of ListModelMixin
