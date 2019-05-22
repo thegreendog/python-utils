@@ -73,6 +73,10 @@ Mixin to change delete action to pass a force parameter to deleting instance, fo
 
 Mixin to get a base POST class based view which performs an action (use it in conjunction with Rest Framework's generics.GenericAPIView)
 
+#### OpenViewMixin
+
+Mixin to set a view with empty authentication_classes and AllowAny permissions
+
 ### Viewsets
 
 #### ActivatableModelViewSet
