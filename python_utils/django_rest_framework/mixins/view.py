@@ -50,12 +50,16 @@ class ProxyDjangoViewMixin(ProxyBaseViewMixin):
     - fields: set or list of the fields that we want to return
     - parameters: set or list of the parameters we enable to filter against
     - page_size: if set, will be the number of results per page
-    - pager: name of the page_size parameter to be used
+    - page_size_param: name of the `page_size` parameter to be used
+    - page_param: name of the `page` parameter to be used
+    - keys_to_remove: keys to remove from response JSON (tipical Django keys)
     """
     fields = None
     parameters = None
     page_size = None
-    pager = 'page_size'
+    page_size_param = 'page_size'
+    page_param = 'page'
+    keys_to_remove = ('count', 'next', 'previous')
 
     def get_query_params(self):
         """Construct the query parameters based on fields and parameters"""
@@ -68,7 +72,10 @@ class ProxyDjangoViewMixin(ProxyBaseViewMixin):
                 if parameter_value:
                     query_params[parameter] = parameter_value
         if self.page_size:
-            query_params[self.pager] = self.page_size
+            query_params[self.page_size_param] = self.page_size
+            parameter_value = self.request.query_params.get(self.page_param, None)
+            if parameter_value:
+                query_params[self.page_param] = parameter_value
         return query_params
 
 
@@ -78,12 +85,16 @@ class ProxyEveViewMixin(ProxyBaseViewMixin):
     - fields: set or list of the fields that we want to return
     - parameters: set or list of the parameters we enable to filter against
     - page_size: if set, will be the number of results per page
-    - pager: name of the page_size parameter to be used
+    - page_size_param: name of the `page_size` parameter to be used
+    - page_param: name of the `page` parameter to be used
+    - keys_to_remove: keys to remove from response JSON (tipical EVE keys)
     """
     fields = None
     parameters = None
     page_size = None
-    pager = 'page_size'
+    page_size_parameter = 'page_size'
+    page_param = 'page'
+    keys_to_remove = ('_meta', '_links')
 
     def get_query_params(self):
         """Construct the query parameters based on fields and parameters"""
@@ -96,7 +107,10 @@ class ProxyEveViewMixin(ProxyBaseViewMixin):
                 if parameter_value:
                     query_params[parameter] = parameter_value
         if self.page_size:
-            query_params[self.pager] = self.page_size
+            query_params[self.page_size_param] = self.page_size
+            parameter_value = self.request.query_params.get(self.page_param, None)
+            if parameter_value:
+                query_params[self.page_param] = parameter_value
         return query_params
 
 
@@ -114,6 +128,9 @@ class ProxyGetViewMixin():  # pylint: disable=too-few-public-methods
         custom_response = {'status': res.status_code}
         try:
             custom_response['data'] = res.json()
+            if self.keys_to_remove:
+                for key_to_remove in self.keys_to_remove:
+                    custom_response['data'].pop(key_to_remove)
         except Exception:
             pass
         return Response(**custom_response)
