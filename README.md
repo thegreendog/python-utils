@@ -77,6 +77,18 @@ Mixin to get a base POST class based view which performs an action (use it in co
 
 Mixin to set a view with empty authentication_classes and AllowAny permissions
 
+#### ProxyDjangoViewMixin
+
+Proxy view to be used against Django backends
+
+#### ProxyEveViewMixin
+
+Proxy view to be used against EVE backends
+
+#### ProxyGetViewMixin
+
+Proxy view to be used in combination with ProxyDjangoViewMixin or ProxyEveViewMixin that makes a get request against desired backend
+
 ### Viewsets
 
 #### ActivatableModelViewSet
@@ -88,6 +100,12 @@ Changes DRF's ModelViewSet to use DestroyActivatableModelMixin instead of Destro
 #### as_serializer_validation_error
 
 Method that raises a ValidationError as if it was raised in a serializer validation (intended for being used in views)
+
+### Pagination
+
+#### PageNumberPaginationWithPageSize
+
+Django Rest Framework's PageNumberPagination with `page_size_query_param` defined
 
 ### Serializers
 
