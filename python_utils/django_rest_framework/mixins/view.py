@@ -82,6 +82,7 @@ class ProxyDjangoViewMixin(ProxyBaseViewMixin):
 class ProxyEveViewMixin(ProxyBaseViewMixin):
     """
     Custom query parameter management for proxy views that point to EVE views. Some fields to define:
+    - initial_query_params: initial query parameters
     - fields: set or list of the fields that we want to return
     - parameters: set or list of the parameters we enable to filter against
     - page_size: if set, will be the number of results per page
@@ -89,16 +90,17 @@ class ProxyEveViewMixin(ProxyBaseViewMixin):
     - page_param: name of the `page` parameter to be used
     - keys_to_remove: keys to remove from response JSON (tipical EVE keys)
     """
+    initial_query_params = {}
     fields = None
     parameters = None
     page_size = None
-    page_size_parameter = 'page_size'
+    page_size_param = 'page_size'
     page_param = 'page'
     keys_to_remove = ('_meta', '_links')
 
     def get_query_params(self):
         """Construct the query parameters based on fields and parameters"""
-        query_params = {}
+        query_params = dict(self.initial_query_params)
         if self.fields:
             query_params['fields'] = ','.join(str(field) for field in self.fields)
         if self.parameters:
