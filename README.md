@@ -2,6 +2,10 @@
 
 General purpose utilities
 
+## Generate python dist
+
+Generate egg in dist folder: `python setup.py sdist`
+
 ## Python
 
 ### Generic
