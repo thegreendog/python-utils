@@ -133,7 +133,7 @@ class ProxyGetViewMixin():  # pylint: disable=too-few-public-methods
             custom_response['data'] = res.json()
             if self.keys_to_remove:
                 for key_to_remove in self.keys_to_remove:
-                    custom_response['data'].pop(key_to_remove)
+                    custom_response['data'].pop(key_to_remove, None)
         except Exception:
             pass
         return Response(**custom_response)
