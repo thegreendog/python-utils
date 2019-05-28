@@ -9,6 +9,8 @@ from django.utils import translation
 from rest_framework import permissions
 from rest_framework.response import Response
 
+from python_utils.generic.defaults import DEFAULT_REQUEST_TIMEOUT
+
 
 class ActionViewMixin():  # pylint: disable=too-few-public-methods
     """View that performs an action"""
@@ -123,7 +125,7 @@ class ProxyGetViewMixin():  # pylint: disable=too-few-public-methods
     ProxyViewMixin with a default get method implementation. Could be customized:
     - timeout: default timeout of this request
     """
-    timeout = settings.REQUESTS_TIMEOUT
+    timeout = getattr(settings, 'REQUESTS_TIMEOUT', DEFAULT_REQUEST_TIMEOUT)
 
     def get(self, request, *args, **kwargs):  # pylint: disable=unused-argument
         """Makes a get request"""
