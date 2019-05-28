@@ -1,6 +1,7 @@
 """View related mixin classes"""
 from functools import partial
 import copy
+import json
 
 import requests
 from django.conf import settings
@@ -103,7 +104,7 @@ class ProxyEveViewMixin(ProxyBaseViewMixin):
         """Construct the query parameters based on fields and parameters"""
         query_params = copy.deepcopy(self.initial_query_params)
         if self.fields:
-            query_params['projection'] = {field: 1 for field in self.fields}
+            query_params['projection'] = json.dumps({field: 1 for field in self.fields})
         if self.parameters:
             for parameter in self.parameters:
                 parameter_value = self.request.query_params.get(parameter, None)
