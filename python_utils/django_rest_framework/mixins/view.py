@@ -1,5 +1,6 @@
 """View related mixin classes"""
 from functools import partial
+import copy
 
 import requests
 from django.conf import settings
@@ -94,15 +95,15 @@ class ProxyEveViewMixin(ProxyBaseViewMixin):
     fields = None
     parameters = None
     page_size = None
-    page_size_param = 'page_size'
+    page_size_param = 'max_results'
     page_param = 'page'
     keys_to_remove = ('_meta', '_links')
 
     def get_query_params(self):
         """Construct the query parameters based on fields and parameters"""
-        query_params = dict(self.initial_query_params)
+        query_params = copy.deepcopy(self.initial_query_params)
         if self.fields:
-            query_params['fields'] = ','.join(str(field) for field in self.fields)
+            query_params['projection'] = {field: 1 for field in self.fields}
         if self.parameters:
             for parameter in self.parameters:
                 parameter_value = self.request.query_params.get(parameter, None)
