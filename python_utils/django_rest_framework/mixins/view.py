@@ -88,7 +88,7 @@ class ProxyEveViewMixin(ProxyBaseViewMixin):
     Custom query parameter management for proxy views that point to EVE views. Some fields to define:
     - initial_query_params: initial query parameters
     - fields: set or list of the fields that we want to return
-    - parameters: set or list of the parameters we enable to filter against
+    - parameters: set or list of the parameters we enable to filter against 
     - page_size: if set, will be the number of results per page
     - page_size_param: name of the `page_size` parameter to be used
     - page_param: name of the `page` parameter to be used
@@ -96,7 +96,7 @@ class ProxyEveViewMixin(ProxyBaseViewMixin):
     """
     initial_query_params = {}
     fields = None
-    parameters = None
+    # parameters = None
     page_size = None
     page_size_param = 'max_results'
     page_param = 'page'
@@ -107,11 +107,12 @@ class ProxyEveViewMixin(ProxyBaseViewMixin):
         query_params = copy.deepcopy(self.initial_query_params)
         if self.fields:
             query_params['projection'] = json.dumps({field: 1 for field in self.fields})
-        if self.parameters:
-            for parameter in self.parameters:
-                parameter_value = self.request.query_params.get(parameter, None)
-                if parameter_value:
-                    query_params[parameter] = parameter_value
+        # TODO: check if it is possible in eve
+        # if self.parameters:
+        #     for parameter in self.parameters:
+        #         parameter_value = self.request.query_params.get(parameter, None)
+        #         if parameter_value:
+        #             query_params[parameter] = parameter_value
         if self.page_size:
             query_params[self.page_size_param] = self.page_size
             parameter_value = self.request.query_params.get(self.page_param, None)
