@@ -16,7 +16,11 @@ eve = "==0.8.*"
 pytz = "==2018.5"
 django-filter = "==2.1.*"
 pytest = "*"
+pytest-cov = "*"
+pytest-django = "*"
 requests = "==2.22.*"
+pytest-pythonpath = "*"
+responses = "*"
 
 [requires]
 python_version = "3.6"
