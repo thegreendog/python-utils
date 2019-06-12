@@ -35,9 +35,13 @@ Django specific Request formatter that uses GELF format
 
 ### Middlewares
 
-#### HealthCheck Middleware
+#### HealthCheckMiddleware
 
 Exposes /healthz and /readyz endpoints for liveness and readiness probes
+
+#### NeverCacheMiddleware
+
+Adds `Cache-Control: max-age=0, no-cache, no-store, must-revalidate` header to response if no previous Cache-control header is present
 
 ### Models
 
