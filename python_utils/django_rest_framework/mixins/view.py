@@ -1,10 +1,11 @@
 """View related mixin classes"""
-from functools import partial
 import copy
 import json
+from functools import partial
 
 import requests
 from django.conf import settings
+from django.contrib.auth import get_user_model
 from django.utils import translation
 from rest_framework import permissions
 from rest_framework.response import Response
@@ -141,3 +142,25 @@ class ProxyGetViewMixin():  # pylint: disable=too-few-public-methods
         except Exception:
             pass
         return Response(**custom_response)
+
+
+class GetUserObjectMixin():  # pylint: disable=too-few-public-methods
+    """
+    Mixin class that overrides the get_object to use the user in the request
+    Defines a common default queryset and lookup, but obviously could be overrided
+    """
+    queryset = get_user_model().objects.all()
+    lookup_field = 'id'
+
+    def get_object(self):
+        """Filter by user"""
+        self.kwargs[self.lookup_field] = self.request.user.id
+        return super().get_object()
+
+
+class GetUserQuerysetMixin():  # pylint: disable=too-few-public-methods
+    """Mixin that adds a filtering by the user in the request to get_queryset method"""
+
+    def get_queryset(self):
+        """Filter by user"""
+        return super().get_queryset().filter(user=self.request.user)

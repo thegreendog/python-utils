@@ -37,7 +37,7 @@ Django specific Request formatter that uses GELF format
 
 #### HealthCheckMiddleware
 
-Exposes /healthz and /readyz endpoints for liveness and readiness probes
+Exposes /healthz and /readyz endpoints for liveness and readiness probes. Those paths can be overrided
 
 #### NeverCacheMiddleware
 
@@ -97,6 +97,14 @@ Proxy view to be used against EVE backends
 
 Proxy view to be used in combination with ProxyDjangoViewMixin or ProxyEveViewMixin that makes a get request against desired backend
 
+#### GetUserObjectMixin
+
+Overrides `get_object` to filter against the user in the request. Defines also a default common queryset and lookup_field for this use case. Useful for using in combination with `UpdateAPIView`, `DestroyAPIView` and `RetrieveAPIView`
+
+#### GetUserQuerysetMixin
+
+Overrides `get_queryset` to add a filtering against the user in the request. Useful for using in combination with viewsets for example
+
 ### Viewsets
 
 #### ActivatableModelViewSet
@@ -108,6 +116,16 @@ Changes DRF's ModelViewSet to use DestroyActivatableModelMixin instead of Destro
 #### as_serializer_validation_error
 
 Method that raises a ValidationError as if it was raised in a serializer validation (intended for being used in views)
+
+### Generics
+
+#### PutAPIView
+
+It's an `UpdateAPIView` but only with `put` method defined
+
+#### PatchAPIView
+
+It's an `UpdateAPIView` but only with `patch` method defined
 
 ### Pagination
 

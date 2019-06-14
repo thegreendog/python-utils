@@ -1,21 +1,26 @@
-"""Middleware to check health and readyness. Thank you ianlewis"""
+"""Healthcheck related middlewares"""
 import logging
 
+from django.conf import settings
 from django.http import HttpResponse, HttpResponseServerError
 
-logger = logging.getLogger("healthcheck")
+LOGGER = logging.getLogger("healthcheck")
+
+HEALTHZ_PATH = getattr(settings, 'HEALTHZ_PATH', "/healthz")
+READYZ_PATH = getattr(settings, 'READYZ_PATH', "/readyz")
 
 
 class HealthCheckMiddleware:
+    """Middleware to check health and readyness. Thank you ianlewis"""
 
     def __init__(self, get_response):
         self.get_response = get_response
 
     def __call__(self, request):
         if request.method == "GET":
-            if request.path == "/healthz":
+            if request.path == HEALTHZ_PATH:
                 return self.healthz(request)
-            elif request.path == "/readyz":
+            elif request.path == READYZ_PATH:
                 return self.readyz(request)
         return self.get_response(request)
 
@@ -36,7 +41,7 @@ class HealthCheckMiddleware:
                 if row is None:
                     return HttpResponseServerError("db: invalid response")
         except Exception as e:
-            logger.exception(e)
+            LOGGER.exception(e)
             return HttpResponseServerError("db: cannot connect to database.")
 
         # Call get_stats() to connect to each memcached instance and get it's stats.
@@ -50,7 +55,7 @@ class HealthCheckMiddleware:
                     if len(stats) != len(cache._servers):
                         return HttpResponseServerError("cache: cannot connect to cache.")
         except Exception as e:
-            logger.exception(e)
+            LOGGER.exception(e)
             return HttpResponseServerError("cache: cannot connect to cache.")
 
         return HttpResponse("OK")
