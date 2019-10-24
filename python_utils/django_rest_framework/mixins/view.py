@@ -7,10 +7,9 @@ import requests
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.utils import translation
+from python_utils.generic.defaults import DEFAULT_REQUEST_TIMEOUT
 from rest_framework import permissions
 from rest_framework.response import Response
-
-from python_utils.generic.defaults import DEFAULT_REQUEST_TIMEOUT
 
 
 class ActionViewMixin():  # pylint: disable=too-few-public-methods
@@ -25,7 +24,6 @@ class ActionViewMixin():  # pylint: disable=too-few-public-methods
 
 class OpenViewMixin():  # pylint: disable=too-few-public-methods
     """Mixin for views which doesn't need authentication nor permission"""
-    authentication_classes = ()
     permission_classes = (permissions.AllowAny,)
 
 

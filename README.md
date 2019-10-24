@@ -83,7 +83,7 @@ Mixin to get a base POST class based view which performs an action (use it in co
 
 #### OpenViewMixin
 
-Mixin to set a view with empty authentication_classes and AllowAny permissions
+Mixin to set a view with AllowAny permissions
 
 #### ProxyDjangoViewMixin
 
