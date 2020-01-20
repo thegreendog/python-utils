@@ -127,8 +127,8 @@ class ProxyGetViewMixin():  # pylint: disable=too-few-public-methods
     """
     timeout = getattr(settings, 'REQUESTS_TIMEOUT', DEFAULT_REQUEST_TIMEOUT)
 
-    def get(self, request, *args, **kwargs):  # pylint: disable=unused-argument
-        """Makes a get request"""
+    def get_data(self, request, *args, **kwargs):  # pylint: disable=unused-argument
+        """Makes a get request and format data"""
         res = requests.get(url=self.get_url(), headers=self.get_headers(),
                            params=self.get_query_params(), timeout=self.timeout)
         custom_response = {'status': res.status_code}
@@ -139,6 +139,11 @@ class ProxyGetViewMixin():  # pylint: disable=too-few-public-methods
                     custom_response['data'].pop(key_to_remove, None)
         except Exception:
             pass
+        return custom_response
+
+    def get(self, request, *args, **kwargs):  # pylint: disable=unused-argument
+        """Makes a get request and format the response"""
+        custom_response = self.get_data(request, *args, **kwargs)
         return Response(**custom_response)
 
 
