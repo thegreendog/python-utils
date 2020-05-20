@@ -1,6 +1,8 @@
 """Model utils"""
 import uuid
 
+from django import forms
+from django.contrib.postgres.fields import ArrayField
 from django.db import models
 
 
@@ -20,3 +22,20 @@ class BaseModel(DateBaseModel):
 
     class Meta:
         abstract = True
+
+
+class ChoiceArrayField(ArrayField):
+    """
+    A field that allows us to store an array of choices.
+
+    Uses Django 2.2's postgres ArrayField
+    and a MultipleChoiceField for its formfield.
+    """
+
+    def formfield(self, **kwargs):
+        defaults = {
+            'form_class': forms.MultipleChoiceField,
+            'choices': self.base_field.choices,
+        }
+        defaults.update(kwargs)
+        return super(ArrayField, self).formfield(**defaults)
