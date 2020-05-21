@@ -25,7 +25,7 @@ class DjangoRequestGELFFormatter(BasicRequestGELFFormatter):
 
             user = getattr(record.request, 'user', None)
             if user:
-                setattr(record, 'user_id', getattr(user, 'id', None))
+                setattr(record, 'user_id', str(getattr(user, 'id', None)))
                 self.extra_fields.append('user_id')
 
                 setattr(record, 'username', getattr(user, 'username', None))
