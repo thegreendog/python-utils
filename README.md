@@ -53,6 +53,16 @@ Abstract model with created_at and modified_at fields
 
 Default abstract model intented to be a default one
 
+#### ChoiceArrayField
+
+A model field that allows to store an array of chosen values
+
+### Admin
+
+#### IsActiveListFilter
+
+Filter that allows to list only active model instances in admin by default
+
 ## Django Filters
 
 ### Backends (for Rest Framework)
