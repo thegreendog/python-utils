@@ -153,6 +153,12 @@ Default base serializer with all fields and read only fields _id_, _created_at_ 
 
 Adds to the default serializer an _is_active_ field
 
+### Settings
+
+#### NoMetaData
+
+Return no metadata in OPTION method requests.
+
 ## DRF-YASG
 
 ### Response autoschemas
