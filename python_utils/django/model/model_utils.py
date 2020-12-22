@@ -37,7 +37,7 @@ class DateBaseModel(models.Model):
     class Meta:
         abstract = True
 
-    objects = DateBaseManager
+    objects = DateBaseManager()
 
 
 class BaseModel(DateBaseModel):
@@ -62,6 +62,14 @@ class BaseDateActivatableManager(ActivatableManager):
 
 class BaseDateActivatableModel(BaseActivatableModel, DateBaseModel):
     """Mixin base activatable and date model"""
+    class Meta:
+        abstract = True
+
+    objects = BaseDateActivatableManager()
+
+
+class CustomBaseActivatableModel(BaseActivatableModel, BaseModel):
+    """Mixin base activatable, date and UUID id model"""
     class Meta:
         abstract = True
 

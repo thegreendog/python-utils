@@ -57,6 +57,10 @@ Default abstract model intented to be a default one
 
 Abstract model activatable with created_at and modified_at fields
 
+#### CustomBaseActivatableModel
+
+Abstract model activatable with created_at, modified_at and UUID id fields
+
 #### ChoiceArrayField
 
 A model field that allows to store an array of chosen values
