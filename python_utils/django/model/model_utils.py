@@ -1,9 +1,31 @@
 """Model utils"""
 import uuid
 
+from activatable_model.models import (ActivatableManager, ActivatableQuerySet,
+                                      BaseActivatableModel)
 from django import forms
 from django.contrib.postgres.fields import ArrayField
-from django.db import models
+from django.db import models, transaction
+from django.utils import timezone
+from manager_utils import ManagerUtilsManager, ManagerUtilsQuerySet
+
+
+class DateBaseQuerySet(ManagerUtilsQuerySet):
+    """Provides bulk modified updates method for date base models"""
+
+    @transaction.atomic
+    def update(self, *args, **kwargs):
+        if 'modified_date' not in kwargs:
+            kwargs['modified_date'] = timezone.now()
+        res = super().update(*args, **kwargs)
+        return res
+
+
+class DateBaseManager(ManagerUtilsManager):
+    """Date base manager"""
+
+    def get_queryset(self):
+        return DateBaseQuerySet(self.model)
 
 
 class DateBaseModel(models.Model):
@@ -15,6 +37,8 @@ class DateBaseModel(models.Model):
     class Meta:
         abstract = True
 
+    objects = DateBaseManager
+
 
 class BaseModel(DateBaseModel):
     """Mixin base model of all of our actual and future base models usin id as an uuid field"""
@@ -22,6 +46,26 @@ class BaseModel(DateBaseModel):
 
     class Meta:
         abstract = True
+
+
+class BaseDateActivatableQuerySet(ActivatableQuerySet, DateBaseQuerySet):
+    """Provides bulk modified updates method for date based and activatable models"""
+    pass
+
+
+class BaseDateActivatableManager(ActivatableManager):
+    """Custom manager activatable and date based"""
+
+    def get_queryset(self):
+        return BaseDateActivatableQuerySet(self.model)
+
+
+class BaseDateActivatableModel(BaseActivatableModel):
+    """Mixin base activatable and date model"""
+    class Meta:
+        abstract = True
+
+    objects = BaseDateActivatableManager()
 
 
 class ChoiceArrayField(ArrayField):

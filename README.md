@@ -12,8 +12,8 @@ Generate egg in dist folder: `python setup.py sdist`
 
 #### Datetime utils
 
-* Functions to seriale/deserialize dates in ISO_8601 format
-* Functions to print relative time passed since a datetime
+- Functions to seriale/deserialize dates in ISO_8601 format
+- Functions to print relative time passed since a datetime
 
 #### Enum
 
@@ -52,6 +52,10 @@ Abstract model with created_at and modified_at fields
 #### BaseModel
 
 Default abstract model intented to be a default one
+
+#### BaseDateActivatableModel
+
+Abstract model activatable with created_at and modified_at fields
 
 #### ChoiceArrayField
 
