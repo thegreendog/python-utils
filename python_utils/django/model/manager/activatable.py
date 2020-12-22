@@ -4,13 +4,13 @@ from manager_utils import ManagerUtilsManager, ManagerUtilsQuerySet
 from python_utils.django.model.manager.general import DateBaseQuerySet
 
 
-class BaseDateActivatableQuerySet(ActivatableQuerySet, DateBaseQuerySet):
+class DateBaseActivatableQuerySet(ActivatableQuerySet, DateBaseQuerySet):
     """Provides bulk modified updates method for date based and activatable models"""
     pass
 
 
-class BaseDateActivatableManager(ActivatableManager):
+class DateBaseActivatableManager(ActivatableManager):
     """Custom manager activatable and date based"""
 
     def get_queryset(self):
-        return BaseDateActivatableQuerySet(self.model)
+        return DateBaseActivatableQuerySet(self.model)

@@ -53,7 +53,7 @@ Abstract model with created_at and modified_at fields
 
 Default abstract model intented to be a default one
 
-#### BaseDateActivatableModel
+#### DateBaseActivatableModel
 
 Abstract model activatable with created_at and modified_at fields
 

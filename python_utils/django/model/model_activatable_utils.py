@@ -7,16 +7,16 @@ from django.contrib.postgres.fields import ArrayField
 from django.db import models, transaction
 from django.utils import timezone
 from python_utils.django.model.manager.activatable import \
-    BaseDateActivatableManager
+    DateBaseActivatableManager
 from python_utils.django.model.model_utils import BaseModel, DateBaseModel
 
 
-class BaseDateActivatableModel(BaseActivatableModel, DateBaseModel):
+class DateBaseActivatableModel(BaseActivatableModel, DateBaseModel):
     """Mixin base activatable and date model"""
     class Meta:
         abstract = True
 
-    objects = BaseDateActivatableManager()
+    objects = DateBaseActivatableManager()
 
 
 class CustomBaseActivatableModel(BaseActivatableModel, BaseModel):
@@ -24,4 +24,4 @@ class CustomBaseActivatableModel(BaseActivatableModel, BaseModel):
     class Meta:
         abstract = True
 
-    objects = BaseDateActivatableManager()
+    objects = DateBaseActivatableManager()
