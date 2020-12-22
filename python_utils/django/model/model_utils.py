@@ -60,7 +60,7 @@ class BaseDateActivatableManager(ActivatableManager):
         return BaseDateActivatableQuerySet(self.model)
 
 
-class BaseDateActivatableModel(BaseActivatableModel):
+class BaseDateActivatableModel(BaseActivatableModel, DateBaseModel):
     """Mixin base activatable and date model"""
     class Meta:
         abstract = True
